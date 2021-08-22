@@ -1,8 +1,8 @@
-# DSA-201 Introduction to Data Science and Analytics, Fall 2021
+# DSA-201 Intro to Data Science and Analytics, Fall 2021
 
 ## Meetings
 
-T/Th 3:45 PM - 5:00 PM
+M/W 4:00 PM - 5:15 PM
 
 You may think of this course as being in a book club: We will have weekly readings to read or videos to watch (all posted on Canvas) and afterwards we get together to engage in ***active discussion*** of those readings/videos. Thus it is very important that every participant comes to the meetings already having read/watched the assigned readings/videos for that week.
 
@@ -70,58 +70,169 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 
 
 ## Tentative schedule
-<table class="tg">
-<thead>
-  <tr>
-    <th class="tg-0pky">Week</th>
-    <th class="tg-0pky">Topic</th>
-  </tr>
-</thead>
+<table>
 <tbody>
-  <tr>
-    <td class="tg-0lax">1-2</td>
-    <td class="tg-0lax">Programs, algorithms, and their structure</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">3</td>
-    <td class="tg-0lax">variables, statements, expressions</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">4</td>
-    <td class="tg-0lax">Adding functionality with modules, debugging</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">5</td>
-    <td class="tg-0lax">Sequences, iterations with for, conditionals</td>
-  </tr>  
-  <tr>
-    <td class="tg-0pky">6</td>
-    <td class="tg-0pky">Iterations with while, functions</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">7</td>
-    <td class="tg-0pky">Dictionaries</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">8</td>
-    <td class="tg-0pky">Packing/unpacking, reading/writing files</td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">9</td>
-    <td class="tg-0pky">Exception handling, sorting</td>
-  </tr>
-    <tr>
-    <td class="tg-0pky">10</td>
-    <td class="tg-0pky">Some hacks: maps, filter, list comprehensions</td>
-  </tr>
-      <tr>
-    <td class="tg-0pky">11</td>
-    <td class="tg-0pky">Jupyter notebooks, Jupyterlab</td>
-  </tr>
-       <tr>
-    <td class="tg-0pky">12</td>
-    <td class="tg-0pky">Visualizing data</td>
-  </tr>
+<tr>
+<td width="77">
+<p><strong>Week</strong></p>
+</td>
+<td width="234">
+<p><strong>Readings</strong></p>
+</td>
+<td width="270">
+<p><strong>Focus for the week</strong></p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 1</p>
+</td>
+<td width="234">
+<p>Ch 1: About Data</p>
+<p>Ch 2: Data Problems</p>
+<p>Ch 3: Getting Started with R</p>
+</td>
+<td width="270">
+<p>Data Science Introduction</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 2</p>
+</td>
+<td width="234">
+<p>Ch 4: Follow the Data</p>
+<p>Ch 5: Rows and Columns</p>
+<p>Ch 6: Data Munging</p>
+</td>
+<td width="270">
+<p>Working with Dataframes</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 3</p>
+</td>
+<td width="234">
+<p>Ch 7: Onward with R-Studio</p>
+<p>Ch 8: What&rsquo;s My Function</p>
+<p>Ch 9: Beer, Farms, &amp; Peas</p>
+</td>
+<td width="270">
+<p>Descriptive Statistics and Functions</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 4</p>
+</td>
+<td width="234">
+<p>Ch 10: Sample in a Jar</p>
+</td>
+<td width="270">
+<p>Sampling and Inferential Statistics</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 5</p>
+</td>
+<td width="234">
+<p>Ch 11: Storage Wars</p>
+</td>
+<td width="270">
+<p>Connecting with External Data Sources (such as JSON)</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 6</p>
+</td>
+<td width="234">
+<p>Ch 12: Pictures vs Numbers</p>
+</td>
+<td width="270">
+<p>Introduction to Visualization</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 7</p>
+</td>
+<td width="234">
+<p>Ch 13: Map Mash-Up</p>
+</td>
+<td width="270">
+<p>Working with Map Data</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 8</p>
+</td>
+<td width="234">
+<p>Ch 16: Line Up, Please</p>
+</td>
+<td width="270">
+<p>Linear Modeling</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 9</p>
+</td>
+<td width="234">
+<p>Ch 17: Hi Ho, Hi Ho &ndash; Data Mining We Go</p>
+</td>
+<td width="270">
+<p>Association Rules Mining</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 10</p>
+</td>
+<td width="234">
+<p>Ch 18: What&rsquo;s Your Vector, Victor?</p>
+</td>
+<td width="270">
+<p>Support Vector Machines</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 11</p>
+</td>
+<td width="234">
+<p>Ch 14: Word Perfect</p>
+<p>Ch 15: Happy Words?</p>
+</td>
+<td width="270">
+<p>Text Mining</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 12</p>
+</td>
+<td width="234">
+<p>Ch 19: Shiny Apps</p>
+</td>
+<td width="270">
+<p>Interactive/Web R Applications</p>
+</td>
+</tr>
+<tr>
+<td width="77">
+<p>Week 13</p>
+</td>
+<td width="234">
+<p>Ch 20: Big Data? Big Deal!</p>
+</td>
+<td width="270">
+<p>Big Data</p>
+</td>
+</tr>
 </tbody>
 </table>
 
