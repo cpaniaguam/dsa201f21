@@ -30,17 +30,17 @@ Upon completion of the course participants should be able to:
 
 ## Materials
 
-The main resource will be [Foundations of Python Programming](https://runestone.academy/runestone/books/published/fopp/index.html) via [Runestone Interactive](https://runestone.academy/runestone/books/index).
+The main resource will be the textbook [Introduction to Data Science (2017), by Saltz & Stanton](https://www.bkstr.com/salvereginastore/course-materials-results?shopBy=course&divisionDisplayName=&departmentDisplayName=DSA&courseDisplayName=201&sectionDisplayName=01&programId=220&termId=100069000) <button type="button" >Required</button>.
 
-Other useful resources also hosted at Runestone:
+Other useful resources:
 
-- [How to Think Like a Computer Scientist: Interactive Edition](https://runestone.academy/runestone/books/published/thinkcspy/index.html)
-- [Python for Everybody - Interactive](https://runestone.academy/runestone/books/published/py4e-int/index.html)
-- Python documentation available at https://docs.python.org/3/
-- Sometimes we want to do something very specific but we are kind of stuck. Chances are somebody else has been in a similar situation already. In these cases you could try a search on the Q&A site StackOverflow: https://stackoverflow.com/questions/tagged/python
+- R for Data Science (2017) by Garrett Grolemund and Hadley Wickham, O’Reilly. Web version at http://r4ds.had.co.nz/
+- Introduction to Data Science Data Analysis and Prediction Algorithms with R by Rafael A. Irizarry. Web version at https://rafalab.github.io/dsbook/
+- Advanced R by Hadley Wickham available at https://adv-r.hadley.nz/index.html
+- Sometimes we want to do something very specific but we are kind of stuck. Chances are somebody else has been in a similar situation already. In these cases you could try a search on the Q&A site StackOverflow: https://stackoverflow.com/questions/tagged/R. See also [Cross Validated](https://stats.stackexchange.com/).
 
 ## Evaluation
-Course assessment will consist of homework (including mini-projects), quizzes, and participation (yes, there are no high-stakes exams!). Standard letter-grade scale will apply. The breakdown is as follows.
+Course assessment will consist of homework, quizzes, and participation (yes, there are no high-stakes exams!). Standard letter-grade scale will apply. The breakdown is as follows.
 - Weekly homework (40%, autograded). These will mostly consist of exercises to develop coding muscle memory and are to be worked right on the online textbooks at Runestone.
 - Mini-projects (40 %, about 6). Problem solving/interesting applications based on the concepts and techniques covered. These are to be worked on your own development environment (more on this below) and turned in to Canvas.
 - Quizzes (10%, about 1 every week). Quick assessments to encourage participants to not fall behind.
@@ -250,11 +250,12 @@ The Academic Center for Excellence (ACE) provides peer tutoring appointments tha
 
 ## Credit Hour
 
-Federal regulation defines a credit hour as an amount of work represented in intended learning outcomes and verified by evidence of student achievement that is an institutional established equivalence that reasonably approximates not less than:
+Federal regulation defines a credit hour as an amount of work represented in intended learning outcomes and verified by evidence of student achievement that is an institutionally established equivalence that reasonably approximates not less than:
 
 (1) One hour of classroom or direct faculty instruction and a minimum of two hours of out of class student work each week for approximately fifteen weeks for one semester or trimester hour of credit, or ten to twelve weeks for one quarter hour of credit, or the equivalent amount of work over a different amount of time; or
 
 (2) At least an equivalent amount of work as required in paragraph (1) of this definition for other academic activities as established by the institution including laboratory work, internships, practica, studio work, and other academic work leading to the award of credit hours.
 
+Being a 3-hour course, anticipate to dedicate *at least* 6 hours outside of regular class meetings.
 ## Disclaimer
 *Changes to this syllabus may be made as the instructor deems necessary. The most up to date version will be available on the syllabus page on Canvas.*
