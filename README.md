@@ -73,7 +73,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 <table>
 <tbody>
 <tr>
-<td width="87">
+<td width="97">
 <p><strong>Week</strong></p>
 </td>
 <td width="234">
@@ -84,7 +84,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 1</p>
 </td>
 <td width="234">
@@ -97,7 +97,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 2</p>
 </td>
 <td width="234">
@@ -110,7 +110,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 3</p>
 </td>
 <td width="234">
@@ -123,7 +123,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 4</p>
 </td>
 <td width="234">
@@ -134,7 +134,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 5</p>
 </td>
 <td width="234">
@@ -145,7 +145,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 6</p>
 </td>
 <td width="234">
@@ -156,7 +156,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 7</p>
 </td>
 <td width="234">
@@ -167,7 +167,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 8</p>
 </td>
 <td width="234">
@@ -178,7 +178,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 9</p>
 </td>
 <td width="234">
@@ -189,7 +189,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 10</p>
 </td>
 <td width="234">
@@ -200,7 +200,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 11</p>
 </td>
 <td width="234">
@@ -212,7 +212,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 12</p>
 </td>
 <td width="234">
@@ -223,7 +223,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 </td>
 </tr>
 <tr>
-<td width="77">
+<td width="97">
 <p>Week 13</p>
 </td>
 <td width="234">
