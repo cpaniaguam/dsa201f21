@@ -73,7 +73,7 @@ Course assessment will consist of homework (including mini-projects), quizzes, a
 <table>
 <tbody>
 <tr>
-<td width="77">
+<td width="87">
 <p><strong>Week</strong></p>
 </td>
 <td width="234">
