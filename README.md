@@ -8,7 +8,7 @@ You may think of this course as being in a book club: We will have weekly readin
 
 ## Instructor
 
-Carlos Paniagua, [carlos.paniagua\@salve.edu](mailto:carlos.paniaguamejia@salve.edu). You can also reach me on Teams. Please use email for administrative issues (reporting missing class before it happens) and Microsoft Teams for all other *quick* consultations regarding the course. For more in-depth consultations about course content see [Piazza](piazza.com/salve/fall2021/sta17306/home) and the following.
+Carlos Paniagua, [carlos.paniagua\@salve.edu](mailto:carlos.paniaguamejia@salve.edu). You can also reach me on Teams. Please use email for administrative issues (reporting missing class before it happens) and Microsoft Teams for all other *quick* consultations regarding the course. For more in-depth consultations about course content see [Piazza](piazza.com/salve/fall2021/introtodatascienceanalytics/home) and the following.
 
 ## Open hours
 
@@ -32,7 +32,7 @@ Upon completion of the course participants should be able to:
 
 ## Student Profile
 
-Although there are no formal prerrequisites to participate in this course, the ideal student should have
+Although there are no formal prerequisites to participate in this course, the ideal student should have
 
 - A legitimate interest/curiosity in data science 
 - Some curiosity about business, science, education, health, or another substantive area
@@ -49,7 +49,7 @@ Other useful resources:
 
 - R for Data Science (2017) by Garrett Grolemund and Hadley Wickham, O’Reilly. Web version at http://r4ds.had.co.nz/
 - Introduction to Data Science Data Analysis and Prediction Algorithms with R by Rafael A. Irizarry. Web version at https://rafalab.github.io/dsbook/
-- [Introduction to Modern Statistics](https://openintro-ims.netlify.app/) is a more classical apporach to statistics using today's techonology.
+- [Introduction to Modern Statistics](https://openintro-ims.netlify.app/) is a more classical approach to statistics using today's technology.
 - Hands-On Programming with R by Garrett Grolemund https://rstudio-education.github.io/hopr/ (for the basics of programming in R)
 - Advanced R by Hadley Wickham available at https://adv-r.hadley.nz/index.html
 - Sometimes we want to do something very specific but we are kind of stuck. Chances are somebody else has been in a similar situation already. In these cases you could try a search on the Q&A site StackOverflow: https://stackoverflow.com/questions/tagged/R. See also [Cross Validated](https://stats.stackexchange.com/).
@@ -58,7 +58,7 @@ Other useful resources:
 Course assessment will consist of homework, quizzes, participation, and projects. Standard letter-grade scale will apply. The breakdown is as follows.
 - Homework (40%, about 1 every week) for practicing carrying out data processing, analysis, management, and communication.
 - Projects (20 %, at least one). Problem solving/interesting applications based on the concepts and techniques covered. These are to be worked on your own development environment (more on this below) and turned in to Canvas.
-- Quizzes (30%, about 3). Quick assessments to encourage participants to not fall behind.
+- Quizzes (30%, about 3) to assess mastery of course objectives.
 - Participation (10%, continuously throughout the semester). More on this below.
 
 ## Expectations
@@ -272,5 +272,6 @@ Federal regulation defines a credit hour as an amount of work represented in int
 (2) At least an equivalent amount of work as required in paragraph (1) of this definition for other academic activities as established by the institution including laboratory work, internships, practica, studio work, and other academic work leading to the award of credit hours.
 
 Being a 3-hour course, anticipate to dedicate *at least* 6 hours outside of regular class meetings.
+
 ## Disclaimer
 *Changes to this syllabus may be made as the instructor deems necessary. The most up to date version will be available on the syllabus page on Canvas.*
