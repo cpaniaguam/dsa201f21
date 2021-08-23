@@ -8,7 +8,7 @@ You may think of this course as being in a book club: We will have weekly readin
 
 ## Instructor
 
-Carlos Paniagua, [carlos.paniagua\@salve.edu](mailto:carlos.paniaguamejia@salve.edu). You can also reach me on Teams. Please use email for administrative issues (reporting missing class before it happens) and Microsoft Teams for all other *quick* consultations regarding the course. For more in-depth consultations see [Piazza](piazza.com/salve/fall2021/sta17306/home) and the following.
+Carlos Paniagua, [carlos.paniagua\@salve.edu](mailto:carlos.paniaguamejia@salve.edu). You can also reach me on Teams. Please use email for administrative issues (reporting missing class before it happens) and Microsoft Teams for all other *quick* consultations regarding the course. For more in-depth consultations about course content see [Piazza](piazza.com/salve/fall2021/sta17306/home) and the following.
 
 ## Open hours
 
@@ -16,35 +16,50 @@ These are times we can meet one-on-one. You can see me after class or by appoint
 
 ## Description
 
-Computers are everywhere around us. They can perform many useful tasks a lot faster and more efficienty than any human. Code is what allows humans to control these machines to do amazing things for us. We communicate instructions to a computer via a *programming language.* The ability to control computers in this fashion will make you a much more productive and competitive citizen of today's complex society.
-
-This course is a no-prerequisite introduction to computer programming in a high-level object-oriented programming language. We will use the very popular Python programming language (3x version). From the course catalog: Topics include input/output, assignment, computation, data types, branching and selection, repetition, functions, recursion, exception handling, array-like structures, object-oriented design, algorithmic complexity, algorithms and data structures, and plotting.
+This course is a no-prerequisite introduction to the fundamental concepts, techniques, tools, and methods of data science and analytics. We will use the very popular R programming language for statistical analysis. From the course catalog: Topics include data collection and sampling in real-world problems, unstructured data, brief review of descriptive statistics and statistical plots, data transformations and missing data, visualization of multivariate data, clustering, univariate and multivariate regression, confirmatory data analysis.
 
 ## Objectives
 
 Upon completion of the course participants should be able to:
 
-1. Understand the basic constructs in computer programming.
-2. Design, write, and debug basic and useful programs in Python.
-3. Understand more advanced computer programming techniques through independent study.
+- Understand fundamental concepts and characteristics of data.
+- Design, write, and debug basic and useful programs in R and R-Studio for data management, analysis, and visualization.
+- Understand principles and practices in data filtering, cleaning, and linking.
+- Communicate results of data analyses to decision makers or stakeholders
+- Adequately frame a data science problem: question formulation, data identification.
+- Perform adequate transformations to data, including linking, aggregation, and summarization.
+- Organize and manage data at various stages of project lifecycle 
+
+## Student Profile
+
+Although there are no formal prerrequisites to participate in this course, the ideal student should have
+
+- A legitimate interest/curiosity in data science 
+- Some curiosity about business, science, education, health, or another substantive area
+- Basic computer skills, particularly around spreadsheets
+- Familiarity with basic arithmetic, geometry, and trigonometry 
+- Basic understanding of simple descriptive statistics
+- Motivation to learn and achieve a high degree of professional preparation
 
 ## Materials
 
-The main resource will be the textbook [Introduction to Data Science (2017), by Saltz & Stanton](https://www.bkstr.com/salvereginastore/course-materials-results?shopBy=course&divisionDisplayName=&departmentDisplayName=DSA&courseDisplayName=201&sectionDisplayName=01&programId=220&termId=100069000) <button type="button" >Required</button>.
+The main resource will be the textbook [Introduction to Data Science (2017), by Saltz & Stanton](https://www.bkstr.com/salvereginastore/course-materials-results?shopBy=course&divisionDisplayName=&departmentDisplayName=DSA&courseDisplayName=201&sectionDisplayName=01&programId=220&termId=100069000) (Required)
 
 Other useful resources:
 
 - R for Data Science (2017) by Garrett Grolemund and Hadley Wickham, O’Reilly. Web version at http://r4ds.had.co.nz/
 - Introduction to Data Science Data Analysis and Prediction Algorithms with R by Rafael A. Irizarry. Web version at https://rafalab.github.io/dsbook/
+- [Introduction to Modern Statistics](https://openintro-ims.netlify.app/) is a more classical apporach to statistics using today's techonology.
+- Hands-On Programming with R by Garrett Grolemund https://rstudio-education.github.io/hopr/ (for the basics of programming in R)
 - Advanced R by Hadley Wickham available at https://adv-r.hadley.nz/index.html
 - Sometimes we want to do something very specific but we are kind of stuck. Chances are somebody else has been in a similar situation already. In these cases you could try a search on the Q&A site StackOverflow: https://stackoverflow.com/questions/tagged/R. See also [Cross Validated](https://stats.stackexchange.com/).
 
 ## Evaluation
-Course assessment will consist of homework, quizzes, and participation (yes, there are no high-stakes exams!). Standard letter-grade scale will apply. The breakdown is as follows.
-- Weekly homework (40%, autograded). These will mostly consist of exercises to develop coding muscle memory and are to be worked right on the online textbooks at Runestone.
-- Mini-projects (40 %, about 6). Problem solving/interesting applications based on the concepts and techniques covered. These are to be worked on your own development environment (more on this below) and turned in to Canvas.
-- Quizzes (10%, about 1 every week). Quick assessments to encourage participants to not fall behind.
-- Participation (10 %, continuously throughout the semester). More on this below.
+Course assessment will consist of homework, quizzes, participation, and projects. Standard letter-grade scale will apply. The breakdown is as follows.
+- Homework (40%, about 1 every week) for practicing carrying out data processing, analysis, management, and communication.
+- Projects (20 %, at least one). Problem solving/interesting applications based on the concepts and techniques covered. These are to be worked on your own development environment (more on this below) and turned in to Canvas.
+- Quizzes (30%, about 3). Quick assessments to encourage participants to not fall behind.
+- Participation (10%, continuously throughout the semester). More on this below.
 
 ## Expectations
 
