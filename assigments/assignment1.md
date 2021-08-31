@@ -20,27 +20,28 @@ a <- 150
 2.  Compute the average weight.
 3.  Calculate the length of the vector "height" and "weight."
 4.  Calculate the sum of the heights.
-5.  Compute the average of both height and weight, by dividing the sum (of the height or the width, as appropriate), by the length of the vector. How does this compare to the "mean" function?
-6.  Beyond comparing the value of two expressions visualy, we can have R check the values of two expressions are the same with the `==` operator. Verify part 5's comparison using this operator.
-7.  The R function [`stopifnot`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/stopifnot) can be used to test conditions in our programs. Put the condition in part 6 within the parenthesis after `stopifnot`, like this
+5.  Compute the average of both height and weight, by dividing the sum (of the height or the weight, as appropriate), by the length of the vector. Use your eyes to decide how these results compare to those using the `mean` function?
+6.  Beyond comparing the value of two expressions visually we can have R check the values of two expressions are the same with the `==` operator. Verify part 5's comparison using this operator.
+7.  The R function [`stopifnot`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/stopifnot) can be used to test equally of two expressions in our programs. Put the condition in part 6 within the parenthesis after `stopifnot`, like this
 
 ```r
 stopifnot(my_condition)
 ```
 Report what happened.
-8. Use `stopifnot` to check whether the means of `weight` and `height` are equal.
+
+8. Use `stopifnot` to check whether the means of `weight` and `height` are equal. Report what happened.
 
 ### Step 2: Using max/min functions
 
-9.  Compute the max height, store the result in `maxH`.
+9.  Compute the max height; store the result in `maxH`.
 
-10.  Compute the min weight, store the results in `minW`.
+10.  Compute the min weight; store the result in `minW`.
 
-### Step 3: Vector math
+### Step 3: Operations with vectors
 
-11.  Create a new vector, which is the weight + 5 (every person gained 5 pounds).
+11.  Create a new vector, which is the old weight + 5 (every person gained 5 pounds).
 
-12.  Compute the weight/height for each person, using the new weight just created.
+12.  Compute the weight/height for each person using the new weight just created.
 
 ### Step 4: Using conditional if statements
 
