@@ -23,6 +23,7 @@ a <- 150
 5.  Compute the average of both height and weight, by dividing the sum (of the height or the width, as appropriate), by the length of the vector. How does this compare to the "mean" function?
 6.  Beyond comparing the value of two expressions visualy, we can have R check the values of two expressions are the same with the `==` operator. Verify part 5's comparison using this operator.
 7.  The R function [`stopifnot`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/stopifnot) can be used to test conditions in our programs. Put the condition in part 6 within the parenthesis after `stopifnot`, like this
+
 ```r
 stopifnot(my_condition)
 ```
