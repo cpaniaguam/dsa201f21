@@ -10,7 +10,7 @@ weight <- c(150,140,180,220,160,140,130)
 
 b.  Define a variable:
 
-``` {.r}
+```r
 a <- 150
 ```
 
@@ -42,6 +42,6 @@ a <- 150
 
 Hint: In R, one can do:
 
-``` {.r}
+```r
 if (100 < 150) "100 is less than 150" else "100 is greater than 150"
 ```
