@@ -2,7 +2,7 @@
 
 a.  Define the following vectors, which represent the weight and height of people on a particular team (in inches and pounds):
 
-``` {.r}
+```r
 height <- c(59,60,61,58,67,72,70)
 
 weight <- c(150,140,180,220,160,140,130)
