@@ -48,6 +48,7 @@ The main resource will be the textbook [Introduction to Data Science (2017), by 
 Other useful resources:
 
 - R for Data Science (2017) by Garrett Grolemund and Hadley Wickham, O’Reilly. Web version at http://r4ds.had.co.nz/
+- Modern Data Science with R (2021) by Benjamin S. Baumer, Daniel T. Kaplan, and Nicholas J. Horton, CRC Press. Web version at https://mdsr-book.github.io/mdsr2e/
 - Introduction to Data Science Data Analysis and Prediction Algorithms with R by Rafael A. Irizarry. Web version at https://rafalab.github.io/dsbook/
 - [Introduction to Modern Statistics](https://openintro-ims.netlify.app/) is a more classical approach to statistics using today's technology.
 - Hands-On Programming with R by Garrett Grolemund https://rstudio-education.github.io/hopr/ (for the basics of programming in R)
