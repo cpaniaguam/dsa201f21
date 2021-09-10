@@ -1,0 +1,147 @@
+---
+title: "An Illustrative Data Analysis"
+author: "Carlos Paniagua"
+date: "9/8/2021"
+output: html_document
+---
+
+```{r,include=FALSE}
+library(tidyverse)
+
+```
+
+## Types of Movies Your Favorite Actor Makes
+
+Inspired by the [Hollywood Taxonomy by Walt Hickey at fivethirtyeight.com](https://fivethirtyeight.com/tag/hollywood-taxonomy/).
+
+### Idris Elba
+
+-   We will do a similar analysis for [Idris Elba](https://www.rottentomatoes.com/celebrity/idris_elba)
+
+-   We will use a clustering algorith to classify the different types of movies this actor makes
+
+-   Goal: Write an application that perform similarly for any other actor
+
+### Step 1: Get the data!
+
+-   We will use movie ratings data from [Rotten Tomatoes](https://www.rottentomatoes.com/celebrity/idris_elba).
+
+-   Getting data from a webpage is called ***scrapping**.*
+
+#### Let's get the ratings first!
+
+```{r, echo=FALSE}
+idrisMovies = read.csv('idris_movies.csv')
+idrisMovies %>% select(c(1,3,6)) %>% head()
+```
+
+The original dataset includes US domestic gross information but we will get this from another source.
+
+#### Let's get the movie budgets and revenue!
+
+We will scrape data from [the-numbers.com](https://www.the-numbers.com/movie/budgets/all/101).
+
+```{r, echo=FALSE}
+movies = read.csv('movies.csv')
+head(movies)
+
+```
+
+Question: Are the `DomesticGross` and `WorldwideGross` columns adjusted for inflation?
+
+```{r, echo=FALSE}
+df = movies
+df = df[complete.cases(df),]
+year = str_split_fixed(df$ReleaseDate,", ",2)[,2]
+df$year = year
+df = df %>% relocate(year,Movie,ProductionBudget,DomesticGross,WorldwideGross)
+
+dollar_to_int = function(x){
+    gsub('[\\$,]',"", x) %>% as.integer()
+}
+
+percent_to_int = function(v){
+    as.integer(sub("%",'',v))
+    }
+
+movies_df = df %>%
+    mutate(ProductionBudget = dollar_to_int(ProductionBudget),
+           DomesticGross = dollar_to_int(DomesticGross),
+           WorldwideGross = dollar_to_int(WorldwideGross))
+
+# Question: Is DomesticGross adjusted for inflation?
+
+movies_df %>% ggplot(aes(x=year,y=DomesticGross/1000000))+geom_boxplot()+
+    theme(axis.text.x = element_text(size=6,angle = 90,vjust = 0.5, hjust=1))+
+    ylab('Domestic gross (Millions)')
+
+movies_df = rename(movies_df, Title = Movie)
+
+```
+
+Probably not. Can you see why?
+
+## 
+
+```{r cars}
+summary(cars)
+```
+
+### Step 2: Data Wrangling
+
+We have to combine these two datasets into one so we can analyse it. This is called *Data Wrangling* or *Data Munging*.
+
+```{r, echo=FALSE}
+idris_df = idrisMovies
+merged = left_join(idris_df,movies_df,by='Title')
+merged = merged[complete.cases(merged),]
+idris = merged %>% select(c(1,3,4,5,6,8,9,10))
+# print(names(idris))
+idris = rename(idris, Rating = `TomatometerÂ.`,BoxOffice = `Box.Office`)
+# idris = idris %>% mutate(Rating = percent_to_int(Rating))
+idris = na.omit(idris)
+idris %>% select(c(1,2,6)) %>% as_tibble()
+# idris = idris %>% mutate(Rating = ) 
+
+```
+
+### Step 3: Visualize the data
+
+Let us plot our data!
+
+```{r, echo=FALSE}
+idris = idris %>% mutate(Rating = percent_to_int(Rating))
+p = idris %>% ggplot(aes(x=Rating,y=DomesticGross/1000000))+
+    geom_point() +
+    xlab('Rating') + 
+    ylab('Domestic gross (Millions)')
+p
+```
+
+### Step 4: Modeling the data
+
+We will use a [clustering algorithm](https://en.wikipedia.org/wiki/Cluster_analysis) called [*k*-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) to group Idris Elba's movies. To do this we must choose the number of groups (clusters). Five clusters seems a good choice. Here are the results:
+
+```{r, echo=FALSE}
+actor = 'Idris Elba'
+dfc = idris %>% select(Rating,DomesticGross)
+k5 = kmeans(dfc,centers=5, nstart =  25)
+cluster = factor(k5$cluster)
+p5=idris %>% ggplot(aes(x=Rating,y=DomesticGross/1000000,color=cluster))+
+    geom_point() +
+    xlab('Rating') + 
+    ylab('Domestic gross (Millions)')+
+    ggtitle(paste0(actor,' Movies'))+
+    theme(plot.title = element_text(hjust = 0.5))
+    
+p5
+
+```
+
+Here is the finished dataset including the clusters.
+
+```{r, echo=FALSE}
+idris_short = idris %>% select(Title,Rating,DomesticGross) %>% mutate(cluster = k5$cluster)
+idris_short
+
+```
