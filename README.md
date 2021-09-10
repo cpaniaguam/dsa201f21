@@ -1,5 +1,9 @@
 # DSA-201 Intro to Data Science and Analytics, Fall 2021
 
+<p align="center">
+  <img src="https://cdn-images-1.medium.com/max/800/1*y2VQ3E5MAP-np4sTA_OvWA.png">
+</p>
+
 ## Meetings
 
 M/W 4:00 PM - 5:15 PM
