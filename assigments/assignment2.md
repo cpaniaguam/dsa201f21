@@ -1,28 +1,43 @@
-DSA-201 Assignment 2: Dataframes – Doing Some Initial Data Analysis
+DSA-201 Assignment 2: Dataframes and Data Wrangling
 -------------------------------------------------------------------
 
-### Step 0: Explore the `mtcars` dataset (already included in R)
+### Step 0: Explore the [Pre-Pandemic `NHANES` dataset from the CDC's website](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020) 
 
-1.  Copy the `mtcars` dataset into a new variable (call it `myCars`), so that if you mess up, you can start again (by copying `mtcars` into `myCars` again).
-2.  In the R console issue the `?mtcars` command to view this dataset’s [codebook](https://www.datafiles.samhsa.gov/get-help/codebooks/what-codebook). Read some about what this dataset is about. Take a look at some of its values by issuing `View(myCars)` or `head(myCars)` or `str(myCars)` in the console. Describe the advantages of each of these functions.
+1.  The CDC loves SAS which is a propietary statistical analysis software people in public health love to use. Luckily you don't have to buy SAS. There is a package that facillitates reading SAS files in R called `foreign`. Issue the following commands to install the `foreign` package and download the Pre-Pandemic Demographic NHANES dataset.
 
-### Step 1: Explore hp (“horse power”)
+```r
+# Get package to read xpt that the CDC people love to have 
+if  !('foreign' %in% installed.packages()): install.packages('foreign')
+library(foreign)
 
-3.  What is the highest hp?
-4.  Which car has the highest hp?
-5.  Create a sorted dataframe based on hp.
+# Download NHANES 2017-March 2020 Pre-Pandemic Demographics Data
+# tempfile() creates a file in the temporary files folder.
+# When R shuts off these files are deleted.
 
-### Step 2: Explore mpg (mpg stands for “miles per gallon”)
+download.file("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/P_DEMO.XPT",
+              tf <- tempfile(), 
+              mode="wb")
 
-5.  What is the highest mpg?
-6.  Which car has the highest mpg?
-7.  Create a sorted dataframe based on mpg.
+# Create Data Frame From Temporary File
+NHANES_demo <- foreign::read.xport(tf)
+```
+2. Take a look at this dataset's documentation and codebook [here](https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/P_DEMO.htm). Read some about what this dataset is about. Take a look at some of its values by issuing `View(myCars)` or `head(myCars)` or `str(myCars)` in the console. Describe the advantages of each of these functions.
+3. Report how many variables and observations there are in `NHANES_demo`. Provide a summary with the types (modes) of its variables.
 
-### Step 3: Which car has the “best” combination of mpg and hp?
+### Step 1: Explore the age of the participants. You will have to read the codebook to identify the correct columnn from the dataset.
 
-8.  Design a criterion to decide what the “best” combination is. What logic did you use?
-9.  Which car is the “best” per your criterion?
+4.  What are the 3 highest recorded ages in the sample?
+5.  What are their respective marital status?
 
-### Step 4: Which car has “best” combination of mpg and hp, where mpg and hp must be given equal weight?
+### Step 2: Explore the weights of the participants
 
-Hint: Consider [normalizing or standardizing](https://en.wikipedia.org/wiki/Feature_scaling#Rescaling_(min-max_normalization)) the variables.
+6.  What is the highest weight in the sample?
+7.  Is this person married?
+8.  Create a sorted dataframe based on weight.
+
+### Step 3: Explore the weight variable a bit more
+
+9.  Find the average weight in the sample.
+10.  Find the mean and standard deviation for weight for cases with gender = 'male'
+11.  Find the mean and standard deviation for weight for cases with gender = 'female'
+12.  Summarize these findings in a nice table.
