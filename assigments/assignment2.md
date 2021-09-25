@@ -1,4 +1,4 @@
-DSA-201 Assignment 2: Dataframes and Data Wrangling
+DSA-201 Assignment 2: Dataframes
 -------------------------------------------------------------------
 
 ### Step 0: Explore the [Pre-Pandemic `NHANES` dataset from the CDC's website](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020) 
