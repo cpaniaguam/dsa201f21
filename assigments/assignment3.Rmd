@@ -2,8 +2,10 @@
 title: "assignment3"
 author: "Carlos Paniagua"
 date: "10/1/2021"
+output:
+  pdf_document: default
+  html_document: default
 df_print: paged
-output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -69,7 +71,7 @@ for (t in tbls){
 # gets https://www.the-numbers.com/movie/budgets/all/6101, so no more movies
 
 stopifnot(all(nrow(df)==6181,ncol(df)==5))
-stopifnot(httr::GET(paste0(baseurl,as.numeric(s)+1))$url == url)
+stopifnot(httr::GET(paste0(baseurl,'/',as.numeric(s)+1))$url == url)
 
 # View the dataframe
 View(df)
@@ -144,3 +146,6 @@ Example: If `v = seq(1,10)` the whole numbers from 1 to 10, and `t = 6`, the fun
 ```
 
 14. Report summary statistics for the movie budgets dataframe for each of the numerical variables.
+```{r report}
+# your report goes here
+```
