@@ -19,7 +19,7 @@ Empirical distributions can be created in R using randomly generated numbers. In
 
 ### Task 1
 Write, test, and submit the necessary code in R to accomplish the following:
-1. 	Generate a normal distribution, or 1,000 samples, with a mean of 75. 
+1. 	Generate a normal distribution, of 1,000 samples, with a mean of 75. 
 2. 	Note that in part 1 we are not specifying a standard deviation. What is the standard deviation for this distribution?
 3. 	Write a function that takes three variables – a vector, a min and a max – and returns the proportion of elements in the vector that are between the min and max (including the min and max).
 4. 	Use the function to see what proportion of your normal distribution samples are within the range of 74 to 76.
