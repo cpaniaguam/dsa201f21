@@ -35,7 +35,7 @@ ifelse(sample(c(T, F), 1),
        sample_mean <- mean(maple_sample))
 print(sample_mean)
 ```
-After running this code chunk, the `sample_mean` variable contains the mean annual income of a sample from either Oak or Kao County, but you don't know which. What you do know is that sample mean has a value of 50904.06.
+After running this code chunk, the `sample_mean` variable contains the mean annual income of a sample from either Oak or Kao County, but you don't know which. What you do know is that `sample_mean` has a value of 50904.06.
 
 ### Question: Is this sample from Oak County?
 
