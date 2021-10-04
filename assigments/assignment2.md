@@ -7,7 +7,7 @@ DSA-201 Assignment 2: Dataframes
 
 ```r
 # Get package to read xpt that the CDC people love to have 
-if  !('foreign' %in% installed.packages()): install.packages('foreign')
+if  (!('foreign' %in% installed.packages())) install.packages('foreign')
 library(foreign)
 
 # Download NHANES 2017-March 2020 Pre-Pandemic Demographics Data
