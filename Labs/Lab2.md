@@ -32,7 +32,7 @@ oak_sample = rnorm(100,mean=50000,sd=10000)
 kao_sample = rnorm(100,mean=45000,sd=15000)
 ifelse(sample(c(T, F), 1), 
        sample_mean <- mean(oak_sample),
-       sample_mean <- mean(maple_sample))
+       sample_mean <- mean(kao_sample))
 print(sample_mean)
 ```
 After running this code chunk, the `sample_mean` variable contains the mean annual income of a sample from either Oak or Kao County, but you don't know which. What you do know is that `sample_mean` has a value of 50904.06.
