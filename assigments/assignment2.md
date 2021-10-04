@@ -21,7 +21,7 @@ download.file("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/P_DEMO.XPT",
 # Create Data Frame From Temporary File
 NHANES_demo <- foreign::read.xport(tf)
 ```
-2. Take a look at this dataset's documentation and codebook [here](https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/P_DEMO.htm). Read some about what this dataset is about. Take a look at some of its values by issuing `View(myCars)` or `head(myCars)` or `str(myCars)` in the console. Describe the advantages of each of these functions.
+2. Take a look at this dataset's documentation and codebook [here](https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/P_DEMO.htm). Read some about what this dataset is about. Take a look at some of its values by issuing `View(NHANES_demo)` or `head(NHANES_demo)` or `str(NHANES_demo)` in the console. Describe the advantages of each of these functions.
 3. Report how many variables and observations there are in `NHANES_demo`. Provide a summary with the types (modes) of its variables.
 
 ### Step 1: Explore the age of the participants. You will have to read the codebook to identify the correct columnn from the dataset.
