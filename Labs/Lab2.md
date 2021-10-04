@@ -24,7 +24,7 @@ In this lab you will explore making inferences about populations based on a samp
 - If your sample statistic *looks* extreme, you might think it came from another population. But how large/small should it be to be tagged extreme?
 - If your sample statistic looks typical, you might think it came from your original target population.
 ## Case study
-Say that you have the annual income of 100 people that live in a specific county, either Oak County or Kao County. You know from a previous study that the annual income in Oak County is normally distributed with mean of $50,000 and standard deviation of $10,000. You also know that the annual income in Kao County is $45,000 with standard deviation of $15,000.
+Say that you have the annual income of 100 people that live in a specific county, either Oak County or Kao County. You know from a previous study that the annual income in Oak County is normally distributed with mean of $50,000 and standard deviation of $10,000. You also know that the annual income in Kao County has a mean of $45,000 with standard deviation of $15,000.
 
 ```r
 set.seed(123)
