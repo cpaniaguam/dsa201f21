@@ -25,23 +25,21 @@ In this lab you will explore making inferences about populations based on a samp
 - If your sample statistic looks typical, you might think it came from your original target population.
 
 ## Case study
-Say that you have the annual income of 100 people that live in a specific county, either Oak County or Kao County. You know from a previous study that the annual income in Oak County is normally distributed with mean of $50,000 and standard deviation of $10,000. You also know that the annual income in Kao County has a mean of $45,000 with standard deviation of $15,000.
+The code below creates a samples 10000 observations from a normally distributed population with mean 50000 and standard deviation 10000. Run that on your system.
 
 ```r
 set.seed(123)
-oak_sample = rnorm(100,mean=50000,sd=10000)
+oak_sample = rnorm(10000,mean=50000,sd=10000)
 sample_mean <- mean(sample(oak_sample,100))
 print(sample_mean)
 ```
-After running this code chunk, the `sample_mean` variable contains the mean annual income of a sample from either Oak or Kao County, but you don't know which. What you do know is that `sample_mean` has a value of 50904.06.
-
-### Question: Is this sample from Oak County?
+This is fairly large sample. It's natural to expect the sample mean to be quite close to the population mean, 50000. Verify this.
 
 ## Tasks
 1. Take 10,000 samples (with replacement) and their corresponding means from `oak_sample`.
 2. Choose a data structure to store all the means you got and save it in a variable called `oak_sampled_means`.
 3. Report the following summary statistics from `oak_sampled_means`: mean, standard deviation, maximun, minimum. Create sensible and meaningful variable names to store this metadata.
-4. What are the mean an standard deviation of `oak_sample`? Again report these values and store them in variables with sensible, meaningful names.
+4. What are the mean and standard deviation of `oak_sample`? Again report these values and store them in variables with sensible, meaningful names.
 5. Visualize the distributions of `oak_sampled_means` and `oak_sample`. What can you say about these distributions? 
 
     Hints: Consider these questions:
