@@ -33,7 +33,7 @@ oak_sample = rnorm(10000,mean=50000,sd=10000)
 sample_mean <- mean(sample(oak_sample,100))
 print(sample_mean)
 ```
-This is fairly large sample. It's natural to expect the sample mean to be quite close to the population mean, 50000. Verify this.
+This is a fairly large sample. It's natural to expect the sample mean to be quite close to the population mean, 50000. Verify this.
 
 ## Tasks
 1. Take 10,000 samples (with replacement) and their corresponding means from `oak_sample`.
