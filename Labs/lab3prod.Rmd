@@ -76,10 +76,7 @@ stopifnot(all(nrow(crashes_df) == 715561,
 
     person_df <- sqldf("
           
-          SELECT report_no, sex_code, date_of_birth, eject_desc,                person_type, condition_desc, airbag_deployed,
-                 inj_sever_desc
-          FROM person_details_df
-          
+       
           ")
     #**** Your slq query goes here
 
@@ -93,15 +90,12 @@ stopifnot(all(nrow(crashes_df) == 715561,
 
     # Hint: see the cheat sheet for this package at https://github.com/rstudio/cheatsheets/blob/master/lubridate.pdf
 
-    crashes_df$Gdates = ymd(crashes_df$date)
-    crashes_df$day_of_week = wday(crashes_df$Gdates)
+    crashes_df$Gdates = 
+    crashes_df$day_of_week =
 
     sqldf("
           
-          select day_of_week, 
-          (count(day_of_week) / (select count(*) from crashes_df ) as proportion
-          from crashes_df
-          group by day_of_week 
+         
           
           
           
