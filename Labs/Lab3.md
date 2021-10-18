@@ -42,7 +42,7 @@ As you can see these data sets are relatively large to load into a normal comput
 
 Upon reading the Socrata Open Data API documentation on paging through data, we load the first 100,000 rows of the Person Details dataset with the following chunk. This will take about a minute to finish (~49 seconds on my computer).
 
-{r read data}
+```{r read data}
 
 person_details_df = read.socrata('https://opendata.maryland.gov/resource/py4c-dicf.json?$limit=100000&$offset=0&$order=report_no') 
 
@@ -64,32 +64,31 @@ stopifnot(all(ncol(person_details_df)==48,
 
 stopifnot(all(nrow(crashes_df) == 715561,
               ncol(crashes_df) == 2))
-
-Tasks
+```
+## Tasks
 
 We are going to be interested in the following variables:
 
-report_no, sex_code, date_of_birth, eject_desc, person_type, condition_desc, airbag_deployed, and inj_sever_desc.
+`report_no, sex_code, date_of_birth, eject_desc, person_type, condition_desc, airbag_deployed,` and `inj_sever_desc`.
 
 Use a SQL query to do this and bind this data to the name df.
 
-{r select columns}
+```r
+
+# Finish your query below
 
 person_df <- sqldf("
       
-      SELECT report_no, sex_code, date_of_birth, eject_desc,                person_type, condition_desc, airbag_deployed,
-             inj_sever_desc
-      FROM person_details_df
+
       
       ")
-#**** Your slq query goes here
-
+ ```
 
 We would like to match each person in df with the date of the incident. This data is available in crashes_df. Take a look at this dataframe and anticipate potential issues.
 
 Before we can work with crashes_df we will need to convert the date data to actual date types. Use the lubridate package to do this.
 
-{r get good dates}
+```r
 
 # Hint: see the cheat sheet for this package at https://github.com/rstudio/cheatsheets/blob/master/lubridate.pdf
 
