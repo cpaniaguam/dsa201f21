@@ -34,11 +34,11 @@ library(sqldf)
 
 Now let us load the data. We are going to work with two accident datasets from the State of Maryland:
 
-- Maryland Statewide Vehicle Crashes (716K rows, 56 columns). We will refer to this data set as crashes_df.
+- [Maryland Statewide Vehicle Crashes](https://opendata.maryland.gov/Public-Safety/Maryland-Statewide-Vehicle-Crashes/65du-s3qu) (716K rows, 56 columns). We will refer to this data set as crashes_df.
 
-- Maryland Statewide Vehicle Crashes - Person Details (Anonymized) (1.6M rows, 48 columns). We will refer to this data set as person_df.
+- [Maryland Statewide Vehicle Crashes - Person Details (Anonymized)](https://opendata.maryland.gov/Public-Safety/Maryland-Statewide-Vehicle-Crashes-Person-Details-/py4c-dicf)(1.6M rows, 48 columns). We will refer to this data set as person_df.
 
-As you can see these data sets are relatively large to load into a normal computer. For the purposes of this lab, we are going to use the first 100,000 cases from Person Details and the acc_date and report_no from Vehicle Crashes.
+As you can see these data sets are relatively large to load into a normal computer. For the purposes of this lab, we are going to use the first 100,000 cases from Person Details and the `acc_date` and `report_no` columns from Vehicle Crashes.
 
 Upon reading the Socrata Open Data API documentation on paging through data, we load the first 100,000 rows of the Person Details dataset with the following chunk. This will take about a minute to finish (~49 seconds on my computer).
 
