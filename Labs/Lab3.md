@@ -67,7 +67,7 @@ stopifnot(all(nrow(crashes_df) == 715561,
 ```
 ## Tasks
 
-We are going to be interested in the following variables:
+1. We are going to be interested in the following variables:
 
 `report_no, sex_code, date_of_birth, eject_desc, person_type, condition_desc, airbag_deployed,` and `inj_sever_desc`.
 
@@ -84,45 +84,36 @@ person_df <- sqldf("
       ")
  ```
 
-We would like to match each person in df with the date of the incident. This data is available in crashes_df. Take a look at this dataframe and anticipate potential issues.
+2. We would like to match each person in df with the date of the incident. This data is available in crashes_df. Take a look at this dataframe and anticipate potential issues.
 
-Before we can work with crashes_df we will need to convert the date data to actual date types. Use the lubridate package to do this.
+3. Before we can work with `crashes_df` we will need to convert the date data to actual date types. Use the lubridate package to do this.
 
 ```r
 
 # Hint: see the cheat sheet for this package at https://github.com/rstudio/cheatsheets/blob/master/lubridate.pdf
 
-crashes_df$Gdates = ymd(crashes_df$date)
-crashes_df$day_of_week = wday(crashes_df$Gdates)
-
-sqldf("
-      
-      select day_of_week, 
-      (count(day_of_week) / (select count(*) from crashes_df ) as proportion
-      from crashes_df
-      group by day_of_week 
-      
-      
-      
-      ")
-# Your code goes here
+crashes_df$Gdates =               # Your code goes here
+crashes_df$day_of_week =          # and here
 
 
-Use SQL to understand the data
+```
 
-Use SQL to obtain a report of the proportion of accidents that happened on Sunday.
+## Use SQL to understand the data
 
-{r Sunday accidents}
+4. Use SQL to obtain a report of the proportion of accidents that happened on Sunday.
+
+```r
 # Finish the query below
 sqldf("
       
      
       
       ")
+``` 
 
-Again, use SQL to obtain a report of the proportion of accidents that happened on Saturday
+5. Again, use SQL to obtain a report of the proportion of accidents that happened on Saturday
 
-{r Saturday accidents}
+```r
 
 # your code goes here
 
@@ -131,21 +122,21 @@ sqldf("
      
       
       ")
+```
 
+6. Based on your results from this sample, when are drivers in Maryland more likely to have a car crash?
 
-Based on your results from this sample, when are drivers in Maryland more likely to have a car crash?
+7. How many events had injuries?
 
-How many events had injuries?
-
-{r}
+```r
 # Your code goes here
 
 
+```
+8. Produce a report of injuries by day using SQL.
 
-Produce a report of injuries by day using SQL.
-
-{r}
+```r
 # Your code goes here
 
 
-
+```
