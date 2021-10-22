@@ -42,7 +42,7 @@ As you can see these data sets are relatively large to load into a normal comput
 
 Upon reading the Socrata Open Data API documentation on paging through data, we load the first 100,000 rows of the Person Details dataset with the following chunk. This will take about a minute to finish (~49 seconds on my computer).
 
-```{r read data}
+```r
 
 person_details_df = read.socrata('https://opendata.maryland.gov/resource/py4c-dicf.json?$limit=100000&$offset=0&$order=report_no') 
 
