@@ -1,0 +1,278 @@
+---
+title: "Visualizing data"
+author: "Carlos Paniagua"
+date: "10/24/2021"
+footer: "DSA201 Fall 2021, Carlos Paniagua"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+
+# Install the RSocrata, sqldf packages if not available
+
+if (!'palmerpenguins' %in% installed.packages()) install.packages("palmerpenguins")
+
+# Load relevant packages
+library(psych)
+library(sqldf)
+library(datasets)
+library(tidyverse)
+library(lubridate)
+library(RColorBrewer)
+library(palmerpenguins)
+
+
+```
+
+## Why represent data visually?
+
+-   The eye is very powerful
+-   Provide a concrete representation of the data
+-   Insight may be hidden deeper than what numerical analysis can extract
+
+## Motivating example: Anscombe's quartet
+
+Here is simple data set with 8 variables known as Anscombe's quartet
+
+```{r}
+anscombe
+
+```
+
+## Summary statistics for Anscombe's quartet
+
+```{r}
+psych::describe(anscombe)[,2:4]
+```
+
+## Visualizing Anscombe's quartet
+
+We use R base `plot` function to produce *scatter* plots for each pair of variables `x` and `y`.
+
+```{r}
+myplot = function(x,y){
+    plot(x,y,pch=16,cex=1.5)
+}
+
+
+par(mfrow = c(1,4),pty="s")
+with(anscombe,{
+     myplot(x1,y1);
+     myplot(x2,y2);
+     myplot(x3,y3);
+     myplot(x4,y4)}
+     )
+
+
+
+
+
+
+```
+
+## Other visualizations using base R
+
+Let us go back to the MD crashes data
+
+```{r}
+
+crashes_df <-read.csv('mdCrashes.csv')
+crashes_df$Gdates = ymd(crashes_df$acc_date)
+crashes_df$day_of_week = wday(crashes_df$Gdates)
+
+crashes_per_day_week <- sqldf("
+      
+      select day_of_week, round(count(day_of_week) *100.0 / 
+                          (select count(day_of_week) from crashes_df),2) as proportion
+      from crashes_df
+      group by day_of_week 
+      ORDER BY proportion DESC;
+      
+      
+      
+      ")
+crashes_per_day_week
+
+
+
+
+```
+
+## Pareto chart
+
+We will produce a barplot with columns sorted from largest to smallest (Pareto chart)
+
+```{r}
+barplot(crashes_per_day_week$proportion, 
+        main= 'Crashes in MD per day of week',
+        xlab='day of week',
+        ylab = 'proportion (%)',
+        names.arg = crashes_per_day_week$day_of_week,
+        col= brewer.pal(7, "Set2") )
+```
+
+## Box plots
+
+-   Like histograms, box plots provide a visual for the distribtion of numerical data.
+-   We will use the iris data set to look at the distribution `Petal.Length` for the three species available.
+
+```{r}
+
+data(iris)
+head(iris)
+```
+
+## Box plots
+
+```{r}
+boxplot(Petal.Length ~ Species, data = iris,
+        main='Petal length by species',
+        col = brewer.pal(3, "Set3") )
+```
+
+## Histograms
+
+```{r}
+
+setosa_petal_length = iris$Petal.Length[iris$Species == 'setosa']
+hist(setosa_petal_length)
+```
+
+## More advanced vizs with `ggplot2`
+
+    library(ggplot2)
+
+    # Standard recipe
+
+    ggplot(data = [dataset], 
+           mapping = aes(x = [x-variable], 
+                         y = [y-variable]),
+                         [other options]) +
+       geom_xxx() +
+       other options
+
+## Using `ggplot2` to visualize `penguins` {.tabset .tabset-fade .tabset-pills}
+
+### The `penguins` data set
+
+```{r, include=TRUE, echo=TRUE}
+glimpse(penguins)
+
+```
+
+### Code
+
+    ggplot(data = penguins, 
+           mapping = aes(x = bill_depth_mm, y = bill_length_mm,
+                         colour = species)) +
+      geom_point() +
+      labs(title = "Bill depth and length",
+           subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+           x = "Bill depth (mm)", y = "Bill length (mm)",
+           colour = "Species")
+
+::: {style="text-align: right"}
+[[See Visualizing data with ggplot2](Visualising%20data%20with%20ggplot2)]
+:::
+
+## Viz
+
+```{r}
+
+# Start with the penguins data frame, map bill depth to the x-axis and map bill length to the y-axis.
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm,
+                     y = bill_length_mm,
+                     # map species to the color of each point  
+                     color = species)) + 
+    
+# Represent observation with a point    
+  geom_point() +
+    
+   
+  labs(
+      
+      # title data goes here
+      title = "Bill depth and length",
+      
+      # subtitle goes here
+      subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+       
+      # label for x axis
+      x = "Bill depth (mm)",
+      
+      # and for the y axis
+      y = "Bill length (mm)",
+      
+      # label for the legend
+      colour = "Species",
+      
+      # add a caption
+      caption =  "Source: Palmer Station LTER / palmerpenguins package"
+      ) +
+    
+    # use discrete color scale for accessibility
+    scale_color_viridis_d()
+```
+
+## Aesthetics Options
+
+Commonly used characteristics of chart attributes that can be mapped to a specific variable in the data are
+
+-   color
+
+-   shape
+
+-   size
+
+-   alpha (transparency)
+
+## Shape
+
+```{r, warning=FALSE}
+ggplot(penguins,
+       aes(x = bill_depth_mm, 
+           y = bill_length_mm,
+           color = species,
+           shape = island)) +
+  geom_point() +
+  scale_colour_viridis_d()
+```
+
+```{r, warning=FALSE}
+ggplot(penguins,
+       aes(x = bill_depth_mm, 
+           y = bill_length_mm,
+           color = species,
+           shape = species)) +  #same variable as color
+  geom_point() +
+  scale_colour_viridis_d()
+```
+
+## Size
+
+```{r, warning=FALSE}
+ggplot(penguins,
+       aes(x = bill_depth_mm, 
+           y = bill_length_mm,
+           color = species,
+           shape = species,
+           size = body_mass_g)) +
+  geom_point() +
+  scale_colour_viridis_d()
+```
+
+## Alpha (transparency)
+
+```{r, warning=F}
+ggplot(penguins,
+       aes(x = bill_depth_mm, 
+           y = bill_length_mm,
+           colour = species,
+           shape = species,
+           size = body_mass_g,
+           alpha = flipper_length_mm)) +
+  geom_point() 
+
+```
