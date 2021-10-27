@@ -34,7 +34,7 @@ For each of the tasks below you must produce fully annotated visualizations.
 5.  Now generate a violin plot (see the ggplot2 [cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization.pdf)) for this MPG variable. Compare and contrast the histogram and the violin plot.
 6.  Identify the variable that contains data about the number of cylinders of each vehicle. Produce a pareto chart of this data and identify the three most common.
 7.  Construct a boxplot of MPG by number of cylinders. Use the top 3 categories you identified in part 6.
-8.  Identify the variable that contains data about the transmission type of each vehicle. Construct an overlaid density plot (`geom_density`)for MPG by transmission type.
+8.  Identify the variable that contains data about the transmission type of each vehicle. Construct an overlaid density plot (`geom_density`) for MPG by transmission type.
 9.  Repeat part 8 using side-by-side boxplots.
 
 
