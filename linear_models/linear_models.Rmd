@@ -1,0 +1,206 @@
+---
+title: "Linear Regression"
+author: "Carlos Paniagua"
+date: "11/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+**Note**: Much of this material is from Modern Data Science with R (2021) by Benjamin S. Baumer, Daniel T. Kaplan, and Nicholas J. Horton, CRC Press. Web version at <https://mdsr-book.github.io/mdsr2e/>
+
+The Pioneer Valley Planning Commission (PVPC) collected data north of Chestnut Street in Florence, MA for ninety days from April 5, 2005 to November 15, 2005. Data collectors set up a laser sensor, with breaks in the laser beam recording when a rail-trail (local bike path in North Hampton, MA) user passed the data collection station.
+
+The PVPC wants to understand the relationship between daily ridership (i.e., the number of riders and walkers who use the bike path on any given day) and a collection of explanatory variables, including the temperature, rainfall, cloud cover, and day of the week.
+
+```{r, include=F}
+# Install the mosaic package if necessary by running the following line
+
+ifelse(!('mosaic' %in% installed.packages()), # check the mosaic is installed
+       install.packages('mosaic'),            # if not install the mosaic package
+       library(mosaic))                       # otherwise load the mosaic package 
+
+library(sqldf)
+
+```
+
+```{r}
+# Reference: https://mdsr-book.github.io/mdsr2e/ch-regression.html#motivating-example-modeling-usage-of-a-rail-trail
+# install.packages('mosaic')
+
+# Load the data
+data(RailTrail)
+
+# Take a look at the documentation for the RailTrail dataset
+?RailTrail
+
+# Explore the data
+str(RailTrail)
+
+```
+
+Experience suggests people go outdoors when the weather is nice enough. Let us explore whether this variable (`hightemp`) *explains* ridership (`volume`).
+
+```{r}
+f = ggplot(RailTrail, aes(x = hightemp, y = volume)) + 
+  geom_point()
+f
+```
+
+Let us add a *trendline* using the `geom_smooth` function from ggplot2.
+
+```{r}
+f +  geom_smooth(method = "lm", se = FALSE)
+```
+
+The model for this line is
+
+$y_i = \beta_0 + \beta_1 x_i + \epsilon_i , \text{ for } i=1,\ldots,n ,$
+
+where $n$ is the number of observations in the sample; $\beta_0$ is the population parameter for the intercept (value of $y$ (the response variable) when $x$ the explanatory variable is zero); and $\beta_1$ is the slope coefficient (increase in the response $y$ per unit increase in the explanatory variable $x$). The $\epsilon_i$ are the corresponding errors. $y_i$ is the average response value when the value of the predictor is $x_i.$
+
+```{r}
+sqldf('
+      SELECT hightemp, count(hightemp) as count
+      FROM RailTrail
+      GROUP BY hightemp
+      ORDER BY count DESC
+      LIMIT 5
+      ')
+```
+
+To obtain estimates $\hat{\beta_0}$ and $\hat{\beta_1}$ of $\beta_0$ and $\beta_1$ from our sample data, we use the `lm` function from R.
+
+```{r}
+# Store all the metadata in a lm object to analyze later
+model = lm(volume ~ hightemp, data = RailTrail)
+
+# Get main features of the lm model
+summary(model)
+```
+
+### Interpreting the estimates $\hat{\beta_0}$ and $\hat{\beta_1}$
+
+$\hat{\beta_0}$ is the estimated or expected ridership for a high temperature of 0 degrees Fahrenheit. In this case, this interpretation is not valid as there cannot be a negative number of users for the trail-rail, and a value of 0 for the high temperature is much smaller than the minimum of 40 degrees Fahrenheit. In addition, the sensor was malfunctioning for temperatures under 40 degrees.
+
+$\hat{\beta_1}$ is the predicted increase in ridership for each additional degree in temperature. An expected 5.7 extra riders are to use the trail for every 1 degree of warmer temperature.
+
+## How good is this model?
+
+Let us get the model predictions
+
+```{r}
+
+# Null model that always predicts the mean value of y
+null_model = lm(volume ~ 1, data = RailTrail)
+
+# Collect all the metadata in one single data structure
+df_null_hightemp = data.frame(hightemp = RailTrail$hightemp,                        # original hightemp
+                              volume = RailTrail$volume,                            # orignal volume
+                              null = predict(null_model,RailTrail,pred.var = hightemp),  # pred null
+                              slr = predict(model,RailTrail,pred.var = hightemp) )       # pred model
+```
+
+```{r}
+#side by side plots with patchwork
+
+ifelse(!('patchwork' %in% installed.packages()), # check if patchwork is installed
+       install.packages('patchwork'),            # if not, install patchwork
+       library(patchwork))                       # otherwise load patchwork
+
+
+p1 = ggplot(data=df_null_hightemp, aes(x=hightemp))+
+        geom_line(aes(y=null),color='blue') + 
+        geom_point(aes(y=volume))
+p2 = ggplot(data=df_null_hightemp,aes(x=hightemp)) +
+        geom_line(aes(y=slr),color='red') +
+        geom_point(aes(y=volume))
+
+# Make a side by side plot but just adding the two plots (patchwork package magic!)
+p1 + p2
+```
+
+```{r}
+summary(null_model)
+```
+
+Where did the R-squared for the null model go?
+
+```{r}
+str(summary(null_model))
+null_model$r.squared
+```
+
+So the null model explains none of the variability in y. To see why look at the formula for R-squared.
+
+$\begin{aligned}  R^2 &= 1 - \frac{SSE}{SST} = \frac{SSM}{SST} \\  &= 1 - \frac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{\sum_{i=1}^n (y_i - \bar{y})^2} \end{aligned}$
+
+### Exercise:Compute R-
+
+To ensure you understand this formula, compute R-squared for the original model *by* hand using *R.*
+
+```{r}
+# Compute R-squared from the formula above here
+
+
+```
+
+
+## Using Categorical Variables in Regression
+
+We can use categorical variables to predict a numerical response. In the model below we use `weekday` to predict `volume`.
+
+$\widehat{volume} = \hat{\beta}_0 + \hat{\beta}_1 \cdot \mathrm{weekday}$
+
+```{r}
+sqldf('
+      
+      SELECT weekday, round(avg(volume),0) as mean_volume
+      FROM RailTrail
+      GROUP BY weekday
+      
+      ')
+
+```
+
+Note that on a weekday we expect about 80 fewer riders. Let us fit the model using `weekday` as a predictor of `volume`.
+
+```{r}
+coef(lm(volume ~ weekday, data = RailTrail))
+```
+
+Note the negative value of the coefficient `weekdayTRUE`. Its value is precisely the difference in the means we computed above. The reference value for the `weekday` variable is `weekday` = False (a weekend day). If `weekday`= TRUE we subtract 80 for the expected volume from a weekend day.
+
+We can make the reference value `weekday` = True so that on a weekend/holiday the model predicts an increase in ridership (same results but slightly more intuitive interpretation).
+
+```{r}
+
+# Create variable day in dataset RailTrail
+RailTrail$day = ifelse(RailTrail$weekday==1,
+                       'weekday',
+                       'weekend/holiday')
+coef(lm(volume ~ day, data = RailTrail))
+```
+
+## Multiple Regression: Using more than one predictor
+
+When using more than one predictor (say $p$ of them) we model takes the following form:
+
+$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon, \text{ where } \epsilon \sim N(0, \sigma_\epsilon)$
+
+Each of the $\beta_i, i\geq 1$ coefficients are interpreted as the extra increase in y per unit increase of $x_i$ while keeping all the other $x_j, j\neq i$ constant.
+
+Let us model `volume` using `hightemp` and `precip` as predictors.
+
+```{r}
+model1 = lm(volume~hightemp + precip, data = RailTrail)
+summary(model1)
+```
+# Next time (in DSA-202):
+
+- Interaction terms
+- Adding correlated predictors
+- Nonlinear regression models
+- Logistic regression (categorical response variable)
