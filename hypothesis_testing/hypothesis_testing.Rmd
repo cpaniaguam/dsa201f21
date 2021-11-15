@@ -1,0 +1,305 @@
+---
+title: "DSA-201: Hypothesis Testing"
+author: "Carlos Paniagua"
+date: 11/15/2021
+output:
+  html_notebook: 
+    theme: yeti
+  html_document: 
+    theme: readable
+---
+
+```{r Load_libraries, results = 'hide'}
+if (!('reshape2' %in% installed.packages())){
+       install.packages('reshape2')
+} else{message('reshape2 package already installed!')}
+
+library(reshape2) # package for reshaping dataframes, contains some datasets too
+library(ggplot2)
+library(sqldf)
+
+```
+
+# Case Study 1: Tips
+
+## Who are more generous tippers, women or men?
+
+### Question?
+
+In this statistical study, name the explanatory variable (predictor) and the response variable. What are the observational units?
+
+### Analysis
+
+Let us try to answer this question using some data!
+
+```{r Data Understanding}
+# Load the tips dataset from the reshape2 package
+data(tips)
+
+# Look at its description
+help(tips)
+
+# Look at its structure
+str(tips)
+
+# Loook at summary statistics
+summary(tips)
+```
+
+### Summarize and visualize the data
+
+```{r Plot_Distribution_of_tips_by_sex}
+
+# Look at the distribution of the tips 
+ggplot(data = tips, aes(x=sex)) + 
+    geom_boxplot(aes(y=tip), alpha = .2) +
+    geom_point(aes(y=tip),alpha=.2)+ geom_point(aes(y=mean(tip)),color="red") + 
+    ggtitle('Distribution of tips by sex')
+```
+
+```{r Difference_of_means_by_sex_table}
+avg_tips_by_sex = sqldf("
+      
+      SELECT sex, round(avg(tip),2) AS mean_tip FROM tips
+      GROUP BY sex
+      
+      
+      ")
+avg_tips_by_sex
+
+```
+
+### Compare the mean tip for men/women
+
+```{r Estimated_differenc_women-men}
+
+diff = avg_tips_by_sex[1,2] - avg_tips_by_sex[2,2]
+cat('difference in means (Female - Male):\n',diff)
+
+
+```
+
+### Comment
+
+Because we subtracted the mean tip amount for males from that for females and got a negative difference, the above result suggests that males are more generous. But not so fast!
+
+### How can we be sure?
+
+Recall that there were `r table(tips$sex)[1]` women (group A) and `r table(tips$sex)[2]` men (group B) in the sample. We will randomly assign `r table(tips$sex)[1]` observations to group A and `r table(tips$sex)[2]` to group B and estimate the mean tip in each group and compare them by taking their difference. We will repeat that trial 15000 times.
+
+```{r Simulation_Null_Distribution}
+female_male = table(tips$sex)
+nfemale = female_male['Female']
+
+simulate_diff  = function(data, var, count_group1){
+     
+     # shuffle all observations in tips
+     s = sample(data[,var])          
+     
+     # take the first nfemale of them; assign to group A and get mean
+     A = mean(s[1:count_group1])
+     
+     # all others go to group B; get their mean
+     B = mean(s[-(1:count_group1)])
+     
+     # report their difference
+     return(A-B)
+     }
+
+# Replicate 10000 times to get a sampling distribution of the differences
+
+  # Set the seed for reproducibility
+  set.seed(123)
+  trials = 15000
+  sim = replicate(trials,simulate_diff(tips,'tip',nfemale))
+
+  # Visualize the distribution of differences
+  ggplot(data=data.frame(sim),aes(x=sim)) + 
+  
+  # draw base histogram
+  geom_histogram(fill='white',color='black',binwidth = .4/7) + 
+  
+  # Shade red differences bigger than diff in either direction
+  geom_histogram(data=subset(data.frame(sim),sim<diff | sim > abs(diff)),binwidth = .4/7,fill='red') +
+    
+  # Annotate
+  ggtitle('Null distribution of the differences in tips')  
+
+```
+
+### How much area of the histogram is shaded?
+
+We are interested in the shaded tail area of the distribution. This is the proportion of differences that are equal or more extreme than the observed difference of the mean tip amount between women and men. This tail area is known as *p-value.*
+
+```{r}
+tail_area = sum(sim < -abs(diff) | sim > abs(diff)) / length(sim)
+cat('Tail area: ', round(tail_area,2))
+
+```
+
+### There are two possibilities here:
+
+-   Null hypothesis: The difference is zero. That is, women in general are as generous as men are.
+-   Alternative hypothesis: The difference is not zero. There is a difference between women and men tipping tendencies.
+
+If women and men are equally generous tippers (remove the Female and Male labels), then how likely is it to observe a difference of `r diff` or higher? The answer to this question is `r tail_area`. Is this a rare enough event to you?
+
+Many people use 0.1 (some business applications), 0.05 (most common), 0.01 (used often in clinical trials). This is called the *signinficance level* of the test. If we adopt any of those three significance levels, we would qualify our event as not rare. That is the observed difference in the sample is typical of random variation.
+
+### Decision
+
+We fail to reject the null hypothesis: We do not have evidence to believe the tipping tendencies of women and men are different.
+
+# Case Study 2: GPA
+
+Is there a difference between freshman year gpa between female/male?
+
+## Sample data
+
+```{r sample_data_gpa}
+sat_gpa <- read.csv("https://rudeboybert.github.io/SDS220/static/PS/sat_gpa.csv")
+str(sat_gpa)
+summary(sat_gpa)
+```
+
+## Summarize data for analysis
+
+```{r}
+mean_gpa = sqldf('
+      
+      select count(gpa_fy) as count, avg(gpa_fy) as mean_gpa from sat_gpa group by sex
+      
+      ')
+rownames(mean_gpa) = c('Female', 'Male')
+
+mean_gpa
+
+diff = mean_gpa['Female','mean_gpa'] - mean_gpa['Male','mean_gpa']
+cat('Difference in mean gpa: ', diff)
+```
+
+There are two possible outcomes:
+
+     - The mean gpa for females is equal to the mean gpa for males (zero difference)
+     - The mean gpa for females is different from the mean gpa for males
+     
+
+### Question
+
+What is the null//alternative hypothesis?
+
+## Preliminary result
+
+The sample suggests the mean freshman gpa for females is greater than that of males. Again, how can we be confident this is the case.
+
+## Build a null distribution
+
+We get rid of the male and female labels and build two groups of gpas, A and B. We will compute their respective means and take their difference.
+
+```{r}
+nfemale = mean_gpa['Female','count']
+
+# Replicate 10000 times to get a sampling distribution of the differences
+
+# Set the seed for reproducibility
+set.seed(123)
+trials = 10000
+sim = replicate(trials,simulate_diff(sat_gpa,'gpa_fy',nfemale))
+
+# Visualize the distribution of differences
+ggplot(data=data.frame(sim),aes(x=sim)) + 
+  
+  # draw base histogram
+  geom_histogram(fill='white',color='black',binwidth = (max(sim)-min(sim))/9 )+ 
+  
+  # # Shade red differences bigger than diff in either direction
+  geom_histogram(data=subset(data.frame(sim),sim< -abs(diff) | sim > abs(diff)),binwidth = (max(sim)-min(sim))/9,
+                 fill='red') +
+  
+  # Annotate
+  ggtitle('Null distribution of the differences in gpa')
+
+tail_area = sum(sim < -abs(diff) | sim > abs(diff)) / length(sim)
+cat('Tail area: ', round(tail_area,4))
+
+```
+
+Can you see any red in the histogram?
+
+## Conclusion
+
+Choose a significance level of 0.01. What is your conclusion?
+
+Given this evidence, and setting a significance level of 0.01, what is your conclusion?
+
+Is a difference in means of `r diff` a rare event at the chosen significance level?
+
+based on this evidence, do you reject the null hypothesis in favor of the alternative? Or do you fail to reject the null hypothesis?
+
+# Your turn!
+
+Suppose the city of Newport, RI wants information about Airbnb rentals to help plan city bylaws, and they want to know what proportion of Airbnb places are listed as entire homes and apartments (rather than as private or shared rooms). They think this proportion is 0.6 (or 60%).
+
+## Get the data
+
+Go to <http://insideairbnb.com/get-the-data.html> and find the section titled *Rhode Island, Rhode Island, United States*. Under this section find the link to the listings.csv file. Read in this data set into R.
+
+```{r}
+# Your code goes here
+
+
+
+```
+
+## Data understanding and filtering
+
+-   Find the link to the data dictionary (in the top menu, find Data \> Data Dictionary). Identify the variables you need for this analysis.
+
+-   Filter the data you need: We are interested in `Entire home/apt` listings in Newport, RI.
+
+-   Get the summary statistics of interest.
+
+```{r}
+# Your code goes here
+
+```
+
+-   What is your conlcusion?
+
+## Assume there was no access to the full population of listings for Newport, RI.
+
+They go online and look at a random sample of 100 places.
+
+-   Take a random sample of these Newport Airbnb places of size 100. What proportion are listed as `Entire home/apt`?
+
+```{r}
+
+# Your code goes here
+
+```
+
+## Should they change their mind?
+
+# Prepare a hypothesis test
+
+-   Set up the null and alternative hypothesis and significance level of 0.05.
+
+-   Construct a *boostrap* distribution by *sampling with replacement* from your original sample by randomly selecting at least 5000 resamples of size 100. Record the proportion of interest in each resample.
+
+```{r}
+# Your code goes here
+
+
+```
+
+-   Visualize the *boostrap* distribution. Identify the cut-off values (2.5% and 97.5% quantiles).
+
+```{r}
+
+# Your code goes here
+
+```
+
+## Decision time!
+
+Is the estimated proportion (original sample)in the rejection region? Should the city authorities change their mind about the proportion of rental places listed as `Entire home/apt`?
