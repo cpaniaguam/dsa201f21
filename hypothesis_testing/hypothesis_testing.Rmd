@@ -270,7 +270,7 @@ Go to <http://insideairbnb.com/get-the-data.html> and find the section titled *R
 
 They go online and look at a random sample of 100 places.
 
--   Take a random sample of these Newport Airbnb places of size 100. What proportion are listed as `Entire home/apt`?
+-   Take a random sample (without replacement) of these Newport Airbnb places of size 100. What proportion are listed as `Entire home/apt`?
 
 ```{r}
 
