@@ -4,6 +4,9 @@ By now you are almost an international expert in NHANES data (refer to Assignmen
 
 This time you will answer some questions about the populations surveyed in this sample.
 
+### Submission info
+Submit a Rmd file with your code and explanations to https://classroom.github.com/a/Q583b_sm
+
 ## Tasks
 
 Use appropiate tests of hypothesis to answer the following questions.
