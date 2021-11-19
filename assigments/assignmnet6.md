@@ -9,6 +9,8 @@ Submit a Rmd file with your code and explanations to https://classroom.github.co
 
 ## Tasks
 
+### Part 1 (50%)
+
 Use appropiate tests of hypothesis to answer the following questions.
 
 1.  Do men lose height as they age?
@@ -16,5 +18,7 @@ Use appropiate tests of hypothesis to answer the following questions.
 2.  Do women lose height as they age?
 
 3. In case men and women lose height as they age, which group loses more height?
+
+### Part 2 (50%)
 
 4. Come up with your own question and use an appropiate test to provide a data driven answer to your question.
