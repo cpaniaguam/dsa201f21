@@ -1,6 +1,6 @@
 ## DSA-201 Assignment 6: Hypothesis Testing
 
-By now you are almost an international expert in NHANES data (refer to Assignments 2 and 5).
+By now you are almost an international expert in NHANES data (refer to Assignments [2](https://github.com/cpaniaguam/dsa201f21/blob/main/assigments/assignment2.md) and [5](https://github.com/cpaniaguam/dsa201f21/blob/main/assigments/assignment5.md)).
 
 This time you will answer some questions about the populations surveyed in this sample.
 
