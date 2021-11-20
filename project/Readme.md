@@ -1,12 +1,30 @@
 # Project
 
-## TL;DR
+## [TL;DR](https://www.urbandictionary.com/define.php?term=tl%3Bdr)
 
-Choose any dataset and do something meaningful with it.
+### To do
+Choose a dataset and show other people you can do something meaningful with it.
+Report must include details of the data science pipeline: data collection, data wrangling, data understanding (including EDA), Inferential analysis (hypothesis testing) / modeling (machine learning).
+
+### Deliverable
+Link to a GitHub statically hosted page ([GitHub pages](https://pages.github.com/)) and presetation. 
+
+### Grading
+(A lot of inspiration for the grading came from [HC Bravo](https://www.hcbravo.org/IntroDataSci/projects/final_project/).)
+
+A numeric score between 1 and 10 will be assigned for each of the following six criteria:
+
+- Motivation. Speak to the importance/relevance of the effort in general and with respect to data science/analytics.
+- Understanding. Does an uninformed reader feel informed about the topic? Would a reader who already knew about the topic feel like s/he learned more about it?
+- Other resources. Does the report link out to other resources (on the web, in books, etc) that would give a lagging reader additional help on specific topics, or an advanced reader the ability to dive more deeply into a specific application area or technique?
+- Narrative. Does the report's prose add value to the content of the deliverable?
+- Code. Is the code well written, well annotated, and reproducible? Does it help the reader understand the tutorial? Does it give good examples of specific techniques?
+- Presentation
 
 Full details below.
 
 ## Details
+(Some inspiration came from [Mine Cetinkaya-Rundel](https://github.com/rstudio-education/datascience-box/blob/main/02-project.Rmd))
 
 - To do: Do a data analysis on a dataset of your own choosing.
 - Data could come from some source, or you may collect your own (via survey, experiment, or web scrapping).
@@ -31,8 +49,8 @@ Full details below.
 - All work must be produced using R in RStudio.
 
 ## Presentation
-- A presentation of your analysis is required (15 to 20 minutes including questions) on the last day of classes.
-- Neatness, coherency, and clarity will count.
+- A presentation of your analysis is required (10-15 minutes including questions) on the last day of classes.
+- Neatness, coherence, and clarity will count.
 
 
 ## Data
@@ -42,7 +60,7 @@ Full details below.
 - Minimum size: 50 observations and between 10 to 20 variables (exceptions can be made with instructor approval).
 - Data should be variagated in type: categorical variables, discrete numerical variables, and continuous numerical variables.
 - :raising_hand: If you are having trouble ask for help before it is too late :dizzy_face::scream:.
-- Datasets used in class examples, homework assignments, or labs in the class will not count.
+- Datasets used in class examples, homework assignments, or labs will not count. You must find your own data!
 
 ## Some data repositories to consider
 In case you need ideas or inspiration, consider looking at the repositories below. You're not limited to these resources, and in fact you're encouraged to venture beyond them.
@@ -66,6 +84,7 @@ In case you need ideas or inspiration, consider looking at the repositories belo
 ### Deliverables
 
 1.  Proposal - due by Nov 29
-2.  Presentation - last day of class
+2.  Link to GitHubpages with tutorial - before last day of class (submit to Canvas)
+3.  Presentation - last day of class
 
-(more details comming)
+
