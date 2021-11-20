@@ -81,7 +81,7 @@ In case you need ideas or inspiration, consider looking at the repositories belo
 -   [OpenIntro datasets](http://openintrostat.github.io/openintro/)
 -   Let me know if you know of other repositories!
 
-### Deliverables
+## Deliverables
 
 1.  Proposal - due by Nov 29
 2.  Link to GitHubpages with tutorial - before last day of class (submit to Canvas)
