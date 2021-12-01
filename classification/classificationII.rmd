@@ -1,0 +1,523 @@
+---
+title: "Classification (part II)"
+author: "Carlos Paniagua"
+date: "12/1/2021"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+(Content adapted from chapter 6 of [Data Science: A First
+Introduction](https://ubc-dsci.github.io/introduction-to-datascience/classification2.html#classification2)
+by Timbers et.al.)
+
+```{r, echo=FALSE}
+library(ggforce) # for drawing circles in ggplot with geom_circle
+library(tidymodels) # for streamelined modeling
+library(kknn) # necessary for knn using tidymodels
+library(tidyverse) # data manipulation and visualization with ggplot
+library(sqldf)     # data manipulation with sql queries
+```
+
+# How 'good' is your classification model?
+
+To test the accuracy of a classifier we need to used labeled cases that were not used to *train* (build) the model. Often this new data set is not available, so what we can do is to set apart a *testing* data set from our available data. The remaining cases (the *training* set) are used to build the model. With a trained model, we make predictions on the cases from testing set and judge how well the model does using some accuracy metrics.
+
+
+```{r}
+# Set the random number generator for reproducibility of results
+set.seed(123)
+
+cancer <- read_csv("https://raw.githubusercontent.com/UBC-DSCI/introduction-to-datascience/master/data/unscaled_wdbc.csv") |>
+  mutate(Class = as_factor(Class))
+```
+```{r}
+# create scatter plot of tumor cell concavity versus smoothness,
+# labeling the points be diagnosis class
+perim_concav <- cancer |>
+  ggplot(aes(x = Smoothness, y = Concavity, color = Class)) +
+  geom_point(alpha = 0.5) +
+  labs(color = "Diagnosis") +
+  scale_color_manual(labels = c("Malignant", "Benign"), 
+                     values = c("orange2", "steelblue2"))+
+    ggtitle('Concavity vs Smoothess',subtitle = 'A bit tricker to make predictions here')
+        
+
+perim_concav
+
+```
+
+## Split the available data
+
+A typical split is 75% for training and 25% for testing.
+
+```{r}
+cancer_split <- initial_split(cancer, prop = 0.75, strata = Class)
+cancer_train <- training(cancer_split)
+cancer_test <- testing(cancer_split) 
+
+```
+
+
+```{r}
+glimpse(cancer_train)
+table(cancer_train$Class)/nrow(cancer_train)
+```
+```{r}
+glimpse(cancer_test)
+table(cancer_test$Class)/nrow(cancer_test)
+```
+## Prepare the training set
+
+```{r}
+cancer_recipe <- recipe(Class ~ Smoothness + Concavity, data = cancer_train) |>
+  step_scale(all_predictors()) |>
+  step_center(all_predictors())
+
+```
+
+## Build the model
+
+```{r}
+# model specification: knn with k = 3
+knn_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = 3) |>
+  set_engine("kknn") |>
+  set_mode("classification")
+
+# make workflow using the preprocessing recipe and the model spec from above
+knn_fit <- workflow() |>
+  add_recipe(cancer_recipe) |>
+  add_model(knn_spec) |>
+  fit(data = cancer_train)
+
+# View the object
+knn_fit
+```
+
+## Get preditions for the test set
+
+```{r}
+cancer_test_predictions <- predict(knn_fit, cancer_test) |>
+  bind_cols(cancer_test)
+
+cancer_test_predictions
+```
+
+## Estimate accuracy
+
+```{r}
+cancer_test_predictions |>
+  metrics(truth = Class, estimate = .pred_class) |>
+  filter(.metric == "accuracy")
+```
+### Confusion matrix
+
+```{r}
+confusion <- cancer_test_predictions |>
+             conf_mat(truth = Class, estimate = .pred_class, )
+
+confusion
+```
+
+### How 'good' is this classifier?
+
+Baseline classifier is majority rule. If the fitted classifier does better than the baseline model on test data we can be confident the model extracted meaningful insight from the data.
+
+Recall the original split of the cases by Class.
+
+```{r}
+table(cancer$Class)/nrow(cancer)
+```
+
+Fitted model has higher accuracy than the baseline model.
+
+## Cross-validation: Are there other values of k for which the model gets higher performance?
+
+Did we choose the best value for k?
+
+To investigate this we split the *training* data into two groups: training set, and validation set.
+
+```{r}
+# create the 25/75 split of the training data into training and validation
+# note the use of cancer_train in the initial_split function
+validate = function(k){
+cancer_split <- initial_split(cancer_train, prop = 0.75, strata = Class)
+cancer_subtrain <- training(cancer_split)   # cancer_subtrain
+cancer_validation <- testing(cancer_split)  # this *test* set is now called validation set for tuning the model
+
+# recreate the standardization recipe from before 
+# (since it must be based on the training data)
+cancer_recipe <- recipe(Class ~ Smoothness + Concavity, 
+                        data = cancer_subtrain) |>
+  step_scale(all_predictors()) |>
+  step_center(all_predictors())
+
+knn_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = k) |>
+  set_engine("kknn") |>
+  set_mode("classification")
+
+# fit the knn model 
+knn_fit <- workflow() |>
+  add_recipe(cancer_recipe) |>
+  add_model(knn_spec) |>
+  fit(data = cancer_subtrain)
+
+# get predictions on the validation data
+validation_predicted <- predict(knn_fit, cancer_validation) |>
+  bind_cols(cancer_validation)
+
+# compute the accuracy
+acc <- validation_predicted |>
+  metrics(truth = Class, estimate = .pred_class) |>
+  filter(.metric == "accuracy") |>
+  select(.estimate) |>
+  pull()
+
+acc}
+```
+
+
+Repeat a number of times and take an average for the estimate of the true model accuracy
+```{r}
+k=3
+accs = replicate(5,validate(k))
+accs
+cat('Mean accuracy in',k,'repetitions:',mean(accs))
+```
+### Cross-validation
+
+In our experiments above we have no control over whether a particular case was used more than once in the validation sets. A procedure that ensure this condition for each validation set (called folds) is called cross-validation.
+
+```{r}
+cancer_vfold <- vfold_cv(cancer_train, v = 5, strata = Class)
+cancer_vfold
+
+```
+Using the folds to train the models for evaluation
+```{r}
+# recreate the standardization recipe from before 
+# (since it must be based on the training data)
+cancer_recipe <- recipe(Class ~ Smoothness + Concavity, 
+                        data = cancer_train) |>
+  step_scale(all_predictors()) |>
+  step_center(all_predictors())
+
+# fit the knn model (we can reuse the old knn_spec model from before)
+knn_fit <- workflow() |>
+  add_recipe(cancer_recipe) |>
+  add_model(knn_spec) |>
+  fit_resamples(resamples = cancer_vfold)
+
+knn_fit
+```
+```{r}
+knn_fit |> 
+  collect_metrics() |> filter(.metric == "accuracy")
+```
+### Trying different values for k
+
+```{r}
+
+# Note the use of the tune function as the value for the neighbors param
+knn_spec <- nearest_neighbor(weight_func = "rectangular", 
+                             neighbors = tune()) |>
+  set_engine("kknn") |>
+  set_mode("classification")
+
+k_vals <- tibble(neighbors = seq(from = 1, to = 100, by = 5))
+
+knn_results <- workflow() |>
+  add_recipe(cancer_recipe) |>
+  add_model(knn_spec) |>
+  tune_grid(resamples = cancer_vfold, grid = k_vals) |>
+  collect_metrics() 
+
+accuracies <- knn_results |>
+  filter(.metric == "accuracy")
+
+accuracies
+
+```
+
+```{r}
+accuracy_vs_k <- ggplot(accuracies, aes(x = neighbors, y = mean)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Neighbors", y = "Accuracy Estimate")+
+    scale_x_continuous(breaks=seq(1,100,5))+
+    geom_vline(xintercept = 31,col = 'red')
+
+accuracy_vs_k
+
+```
+
+Variable definitions
+
+1.  ID: identification number
+
+2.  Class: the diagnosis (M = malignant or B = benign)
+
+3.  Radius: the mean of distances from center to points on the perimeter
+
+4.  Texture: the standard deviation of gray-scale values
+
+5.  Perimeter: the length of the surrounding contour Area: the area
+    inside the contour
+
+6.  Smoothness: the local variation in radius lengths
+
+7.  Compactness: the ratio of squared perimeter and area Concavity:
+    severity of concave portions of the contour
+
+8.  Concave Points: the number of concave portions of the contour
+
+9.  Symmetry: how similar the nucleus is when mirrored
+
+10. Fractal Dimension: a measurement of how "rough" the perimeter is
+
+```{r}
+glimpse(cancer)
+```
+
+See what the function `pull` does. We are going to be using it next.
+
+```{r}
+?pull
+```
+
+Convert the `Class` variable to a *factor.*
+
+```{r}
+cancer <- cancer |>  
+  mutate(Class = as_factor(Class))
+glimpse(cancer)
+```
+
+```{r}
+cancer |> pull(Class) |> levels()
+```
+
+```{r}
+# Doing the same thing without piping
+
+levels(pull(cancer,Class))
+```
+
+```{r}
+table(cancer$Class)
+```
+
+```{r}
+tabulate(cancer[["Class"]])
+```
+
+Look at the distribution of the `Class` variable. knn doesn't do well
+when the target class variable is *imbalanced*.
+
+```{r}
+sqldf(
+    
+    "select Class, count(Class) as count, count(Class)*1.0 / (select count(Class) from cancer) as percentage
+     from cancer
+     group by Class
+    "
+)
+```
+
+Explore relationship between Concavity vs. Perimeter
+
+```{r}
+perim_concav <- cancer |>
+  ggplot(aes(x = Perimeter, y = Concavity, color = Class)) +
+  geom_point(alpha = 0.6) +
+  labs(x = "Perimeter (standardized)", 
+       y = "Concavity (standardized)",
+       color = "Diagnosis") +
+  scale_color_manual(labels = c("Malignant", "Benign"), 
+                     values = c("orange2", "steelblue2"))
+perim_concav
+```
+
+Let us make a new observation for which we have no class label.
+
+```{r}
+new_obs_Perimeter <- 0
+new_obs_Concavity <- 2
+```
+
+How should this new case be classified?
+
+```{r}
+perim_concav + geom_point(aes(x=new_obs_Perimeter, y=new_obs_Concavity), color="red",size=3,shape=18)
+
+```
+
+What about a new case with perimeter of 0.5 and concavity -1 (again,
+both standardized)?
+
+```{r}
+perim_concav + geom_point(aes(x=.5, y=-1), color="red",size=3,shape=18)
+```
+
+Get top 5 observations in the data that are closest to the new
+observation.
+
+```{r}
+
+top5 = cancer %>%
+  select(ID, Perimeter, Concavity, Class) %>%
+  mutate(dist_from_new = sqrt((Perimeter - new_obs_Perimeter)^2 + 
+                              (Concavity - new_obs_Concavity)^2)) %>%
+  arrange(dist_from_new) %>%
+  slice(1:5) # take the first 5 rows
+top5
+```
+
+Visualize these 5 cases relative to the new case.
+
+```{r}
+perim_concav + geom_point(aes(x=new_obs_Perimeter, y=new_obs_Concavity), color="red",size=3,shape=18) +
+    coord_fixed(ratio = 1) +
+    geom_circle(aes(x0 = new_obs_Perimeter, y0 = new_obs_Concavity, r = max(top5$dist_from_new)), inherit.aes = FALSE)           
+    # geom_circle(mapping = aes(x0 = new_obs_Perimeter, y0= new_obs_Concavity, r = max(top5$dist_from_new)))
+```
+
+What is the distribution of the class for the 5-nearest neighbors for
+the new case?
+
+```{r}
+table(top5$Class)
+```
+
+By this rule, the new case is classified as Malignant.
+
+## Working with more than 3 numerical predictors
+
+We can consider more than two numerical predictors. Say that we have
+another case for which we have perimeter, concavity, and symmetry
+measurements.
+
+```{r}
+new_obs_Perimeter <- 0
+new_obs_Concavity <- 3.5
+new_obs_Symmetry <- 1
+```
+
+```{r}
+
+top5_3 = cancer |>
+  select(ID, Perimeter, Concavity, Symmetry, Class) |>
+  mutate(dist_from_new = sqrt((Perimeter - new_obs_Perimeter)^2 + 
+                              (Concavity - new_obs_Concavity)^2 +
+                                (Symmetry - new_obs_Symmetry)^2)) |>
+  arrange(dist_from_new) |>
+  slice(1:5) # take the first 5 rows
+
+top5_3
+```
+
+How to classify this new point?
+
+```{r}
+table(top5_3$Class)
+```
+
+Decision: Classify as Malignant.
+
+# Creating a workflow with tidymodels
+
+## First prep individual pieces (data collection, model definition, and data preprocessing)
+
+```{r}
+library(tidymodels)
+# load the unscaled cancer data 
+# and make sure the target Class variable is a factor
+unscaled_cancer <- read_csv("https://raw.githubusercontent.com/UBC-DSCI/introduction-to-datascience/master/data/unscaled_wdbc.csv") |>
+  mutate(Class = as_factor(Class))
+
+# create the KNN model
+knn_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = 5) |>
+  set_engine("kknn") |>
+  set_mode("classification")
+
+# create the centering / scaling recipe
+uc_recipe <- recipe(Class ~ Area + Smoothness, data = unscaled_cancer) |>
+  step_scale(all_predictors()) |>
+  step_center(all_predictors())
+```
+
+## Fit the model
+
+```{r}
+# Here is where the kknn package is needed
+knn_fit <- workflow() |>
+  add_recipe(uc_recipe) |>
+  add_model(knn_spec) |>
+  fit(data = unscaled_cancer)
+
+knn_fit
+```
+
+## Make predictions
+
+Create unclassified cases.
+
+```{r}
+new_observation <- tibble(Area = c(500, 1500), Smoothness = c(0.075, 0.1))
+# Note the values are not standardized
+
+new_observation
+```
+
+Now make the predictions.
+
+```{r}
+prediction <- predict(knn_fit, new_observation) # same way as with caret
+
+prediction
+```
+
+## Mapping out the predictions
+
+```{r}
+# create the grid of area/smoothness vals, and arrange in a data frame
+are_grid <- seq(min(unscaled_cancer$Area), 
+                max(unscaled_cancer$Area), 
+                length.out = 100)
+smo_grid <- seq(min(unscaled_cancer$Smoothness), 
+                max(unscaled_cancer$Smoothness), 
+                length.out = 100)
+asgrid <- as_tibble(expand.grid(Area = are_grid, 
+                                Smoothness = smo_grid))
+
+# use the fit workflow to make predictions at the grid points
+knnPredGrid <- predict(knn_fit, asgrid)
+
+# bind the predictions as a new column with the grid points
+prediction_table <- bind_cols(knnPredGrid, asgrid) |> 
+  rename(Class = .pred_class)
+
+# plot:
+# 1. the colored scatter of the original data
+# 2. the faded colored scatter for the grid points
+wkflw_plot <-
+  ggplot() +
+  geom_point(data = unscaled_cancer, 
+             mapping = aes(x = Area, 
+                           y = Smoothness, 
+                           color = Class), 
+             alpha = 0.75) +
+  geom_point(data = prediction_table, 
+             mapping = aes(x = Area, 
+                           y = Smoothness, 
+                           color = Class), 
+             alpha = 0.02, 
+             size = 5) +
+  labs(color = "Diagnosis", 
+       x = "Area (standardized)", 
+       y = "Smoothness (standardized)") +
+  scale_color_manual(labels = c("Malignant", "Benign"), 
+                     values = c("orange2", "steelblue2"))
+
+wkflw_plot
+```
